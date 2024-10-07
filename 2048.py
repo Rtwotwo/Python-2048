@@ -418,7 +418,7 @@ def main():
         pygame.init()
         pygame.time.Clock().tick(60)
         for event in pygame.event.get():
-            # 判断是否离开
+            # 判断是否离开 
             if event.type == pygame.QUIT:
                 running = False
 
