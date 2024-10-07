@@ -449,6 +449,38 @@ def main():
                     initial_board[random.randint(0, 3), random.randint(0, 3)] = 2
                     game_state.board = initial_board
 
+            if game_show.ai_control == '关':
+                """玩家模式运行"""
+                # 获取按键的状态
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_LEFT] or keys[ord('a')]:
+                    moved = game_state.move(1)  # 假设 move 方法返回一个布尔值
+                    if moved:  # 只有当移动有效时才插入新数字
+                        available_cells = game_state.get_available_cells()
+                        if available_cells:
+                            game_state.insert_tile(*random.choice(available_cells), 2)
+                elif keys[pygame.K_RIGHT] or keys[ord('d')]:
+                    moved = game_state.move(3)  # 假设 move 方法返回一个布尔值
+                    if moved:  # 只有当移动有效时才插入新数字
+                        available_cells = game_state.get_available_cells()
+                        if available_cells:
+                            game_state.insert_tile(*random.choice(available_cells), 2)
+                elif keys[pygame.K_UP] or keys[ord('w')]:
+                    moved = game_state.move(0)  # 假设 move 方法返回一个布尔值
+                    if moved:  # 只有当移动有效时才插入新数字
+                        available_cells = game_state.get_available_cells()
+                        if available_cells:
+                            game_state.insert_tile(*random.choice(available_cells), 2)
+                elif keys[pygame.K_DOWN] or keys[ord('s')]:
+                    moved = game_state.move(2)  # 假设 move 方法返回一个布尔值
+                    if moved:  # 只有当移动有效时才插入新数字
+                        available_cells = game_state.get_available_cells()
+                        if available_cells:
+                            game_state.insert_tile(*random.choice(available_cells), 2)
+                game_show.game_board()  # 游戏结束,显示结束棋盘
+                pygame.display.flip()
+                pygame.display.update()
+
         if game_show.ai_control == '开':
             """AI模式运行"""
             ai = AI(game_state)
@@ -476,39 +508,6 @@ def main():
             print(game_state.__str__())
             game_show.game_board()
             pygame.display.flip()
-
-        if game_show.ai_control == '关':
-            """玩家模式运行"""
-            # 获取按键的状态
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT] or keys[ord('a')]:
-                moved = game_state.move(1)  # 假设 move 方法返回一个布尔值
-                if moved:  # 只有当移动有效时才插入新数字
-                    available_cells = game_state.get_available_cells()
-                    if available_cells:
-                        game_state.insert_tile(*random.choice(available_cells), 2)
-            elif keys[pygame.K_RIGHT] or keys[ord('d')]:
-                moved = game_state.move(3)  # 假设 move 方法返回一个布尔值
-                if moved:  # 只有当移动有效时才插入新数字
-                    available_cells = game_state.get_available_cells()
-                    if available_cells:
-                        game_state.insert_tile(*random.choice(available_cells), 2)
-            elif keys[pygame.K_UP] or keys[ord('w')]:
-                moved = game_state.move(0)  # 假设 move 方法返回一个布尔值
-                if moved:  # 只有当移动有效时才插入新数字
-                    available_cells = game_state.get_available_cells()
-                    if available_cells:
-                        game_state.insert_tile(*random.choice(available_cells), 2)
-            elif keys[pygame.K_DOWN] or keys[ord('s')]:
-                moved = game_state.move(2)  # 假设 move 方法返回一个布尔值
-                if moved:  # 只有当移动有效时才插入新数字
-                    available_cells = game_state.get_available_cells()
-                    if available_cells:
-                        game_state.insert_tile(*random.choice(available_cells), 2)
-
-        game_show.game_board()  # 游戏结束,显示结束棋盘
-        pygame.display.flip()
-        pygame.display.update()
     # 保存分数
     with open('history_score.txt', 'a') as f:
         if game_state.score != 0:
@@ -556,4 +555,8 @@ def main():
 
 
 if __name__ == '__main__':
+    # 初始化分数文件
+    if not os.path.exists('history_score.txt'):
+        with open('history_score.txt', 'w') as f:
+            f.write(str(0) + '\n')
     main()
