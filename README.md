@@ -74,24 +74,3 @@ This program mainly designs the player mode and AI mode of Python 2048. The AI m
    
    在搜索过程中，算法维护两个边界值：alpha和 beta，其中 alpha 代表当前搜索路径已知的最好选择的下限，而 beta 代表对手可能采取的最佳反击策略的上限。每当搜索到某个节点时，如果发现当前节点的 beta 值小于或等于其父节点的 alpha 值，这意味着从当前节点开始的搜索路径无论如何选择都不会优于已知的最佳路径，因此可以提前终止这条路径的搜索，即进行剪枝。通过这种方式，Alpha-Beta 剪枝有效地减少了搜索空间，提高了搜索效率，使得算法能够在相同时间内探索更深的搜索树，进而找到更优的解决方案。
 
-
-
-   graph TD
-    A[Input (B, T, C, L, P)] --> B[unsqueeze (B, T, 1, L, P)]
-    B --> C[conv_block_1 (B, T, 32, L, P)]
-    C --> D[permute (B, T, P, L, 32)]
-    D --> E[conv_block_2_1 (B, T, 32, L, 32)]
-    D --> F[conv_block_2_2 (B, T, 32, L, 32)]
-    E --> G[concat (B, T, 64, L, 32)]
-    F --> G
-    G --> H[conv_block_3 (B, T, 16, L, 32)]
-    H --> I[view (B, T, F)]
-    I --> J[lstm_4_1 (B, T, 2*hidden_size)]
-    J --> K[lstm_4_2 (B, T, hidden_size)]
-    K --> L[dropout (B, T, hidden_size)]
-    L --> M[select last time step (B, hidden_size)]
-    M --> N[fc_4_1 (B, 2*hidden_size)]
-    N --> O[bn_4 (B, 2*hidden_size)]
-    O --> P[fc_4_2 (B, num_classes)]
-    P --> Q[softmax (B, num_classes)]
-
