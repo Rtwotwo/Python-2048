@@ -4,7 +4,8 @@ from copy import deepcopy
 import random
 import time
 import pygame
-
+  
+  
 
 class GameState:
     def __init__(self, board=None):
